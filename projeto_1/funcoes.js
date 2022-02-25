@@ -32,9 +32,14 @@ function lerArquivos(caminhos) {
      return Promise.all(caminhos.map(caminho => lerArquivo(caminho)))
 }
 
+function removerSeVazio(array) {
+    return array.filter(el => el.trim())
+}
+
 module.exports = {
     lerDiretorio,
     lerArquivo,
     lerArquivos,
-    elementosTerminadosCom
+    elementosTerminadosCom,
+    removerSeVazio
 }
