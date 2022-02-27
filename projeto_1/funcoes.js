@@ -1,6 +1,18 @@
 const fs = require('fs')
 const path = require('path')
 
+function composicao(...fns) {
+    return function (valor) {
+        return fns.reduce(async (acc, fn) => {
+            if (Promise.resolve(acc) === acc) {
+                return fn(await acc)
+            } else {
+                return fn(acc)
+            }
+        }, valor)
+    }
+}
+
 function lerDiretorio(caminho) {
     return new Promise((resolve, reject) => {
         try {
@@ -68,12 +80,12 @@ function removerSimbolos(simbolos) {
     }
 }
 
-function mesclarElementos (array) {
+function mesclarElementos(array) {
     return array.join(' ')
 }
 
 function separarTextoPor(simbolo) {
-    return function(texto) {
+    return function (texto) {
         return texto.split(simbolo)
     }
 }
@@ -97,6 +109,7 @@ function ordernarPorAtribNumerico(attr, ordem = 'asc') {
 }
 
 module.exports = {
+    composicao,
     lerDiretorio,
     lerArquivo,
     lerArquivos,
